@@ -1,0 +1,283 @@
+.swal-dialog {
+  border: none;
+  border-radius: 10px;
+  padding: 0;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: transparent;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.swal-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.swal-container {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-width: 300px;
+  position: relative;
+}
+
+.swal-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.swal-icon.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.swal-icon.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.swal-icon.warning {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.swal-icon.info {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.swal-icon.question {
+  background: #e2e3e5;
+  color: #383d41;
+}
+
+.swal-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 15px;
+  color: #333;
+  line-height: 1.2;
+}
+
+.swal-text {
+  font-size: 16px;
+  color: #666;
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
+
+.swal-image {
+  max-width: 200px;
+  max-height: 200px;
+  margin: 0 auto 20px;
+  display: block;
+}
+
+.swal-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  margin: 15px 0;
+  box-sizing: border-box;
+}
+
+.swal-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.swal-validation-message {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+  display: none;
+}
+
+.swal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.swal-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 100px;
+}
+
+.swal-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.swal-button:active {
+  transform: translateY(0);
+}
+
+.swal-button.confirm {
+  background: #007bff;
+  color: white;
+}
+
+.swal-button.deny {
+  background: #dc3545;
+  color: white;
+}
+
+.swal-button.cancel {
+  background: #6c757d;
+  color: white;
+}
+
+.swal-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  font-size: 14px;
+  color: #666;
+}
+
+.swal-timer-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 123, 255, 0.2);
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+}
+
+.swal-timer-progress-bar-inner {
+  height: 100%;
+  background: #007bff;
+  width: 100%;
+  transition: width linear;
+}
+
+.swal-loading .swal-button.confirm {
+  position: relative;
+  color: transparent;
+}
+
+.swal-loading .swal-button.confirm::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: swal-spin 1s linear infinite;
+}
+
+@keyframes swal-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.swal-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.swal-toast .swal-container {
+  padding: 15px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.swal-toast .swal-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  margin: 0;
+}
+
+.swal-toast .swal-content {
+  flex: 1;
+}
+
+.swal-toast .swal-title {
+  font-size: 16px;
+  margin: 0 0 5px;
+}
+
+.swal-toast .swal-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Position classes */
+.swal-position-top {
+  top: 50px;
+}
+.swal-position-bottom {
+  bottom: 50px;
+}
+.swal-position-center {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Animation classes */
+.swal-show {
+  animation: swal-show 0.3s ease-out;
+}
+
+.swal-hide {
+  animation: swal-hide 0.2s ease-in;
+}
+
+@keyframes swal-show {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes swal-hide {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}

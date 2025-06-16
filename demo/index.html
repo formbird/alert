@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@formbird/alert Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .my-swal {
+            border: 3px solid #3085d6;
+        }
+    </style>
+</head>
+<body>
+    <h1>@formbird/alert Demo</h1>
+    <div style="padding: 20px; max-width: 800px;">
+        <h2>Test the Library</h2>
+        <button onclick="testBasic()">Basic Alert</button>
+        <button onclick="testSuccess()">Success Alert</button>
+        <button onclick="testError()">Error Alert</button>
+        <button onclick="testConfirm()">Confirm Dialog</button>
+        <button onclick="testInput()">Input Dialog</button>
+        <button onclick="testToast()">Toast Notification</button>
+        <button onclick="testTimer()">Auto-close Timer</button>
+        <button onclick="testCustom()">Custom Styling</button>
+    </div>
+    <script type="module" src="./main.ts"></script>
+</body>
+</html>
