@@ -1,0 +1,16 @@
+{
+    "framework": "qunit",
+    "src_files": [
+      "https://code.jquery.com/jquery-3.1.1.min.js",
+      "qunit/tests.js",
+      "dist/index.js",
+        "dist/swal.js"
+    ],
+    "css_files": [
+      "src/styles.css"
+    ],
+    "launch_in_ci": [
+      "Chrome",
+      "Firefox"
+    ]
+}

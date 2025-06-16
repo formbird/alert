@@ -3,6 +3,7 @@ import { SwalOptions, SwalResult, SwalInstance } from './types';
 export class SwalClone implements SwalInstance {
     private currentDialog: HTMLDialogElement | null = null;
     private currentTimer: ReturnType<typeof setTimeout> | null = null;
+    public version = '1.0.0';
 
     private defaults: SwalOptions = {
         title: '',
@@ -13,7 +14,7 @@ export class SwalClone implements SwalInstance {
         iconHtml: undefined,
         footer: '',
         backdrop: true,
-        width: undefined,
+        width: '300px',
         padding: undefined,
         color: undefined,
         background: undefined,
@@ -70,10 +71,18 @@ export class SwalClone implements SwalInstance {
         didDestroy: undefined,
         preConfirm: undefined,
         preDeny: undefined,
-        target: document.body
+        target: document.body,
+        confirmButtonClass: undefined,
+        cancelButtonClass: undefined,
+        showCloseButton: false,
+        titleText: undefined,
+        animation: true
     };
 
-    fire(options: SwalOptions = {}): Promise<SwalResult> {
+    fire(options: SwalOptions | string = {}): Promise<SwalResult> {
+        if (typeof options === 'string') {
+            options = { title: options };
+        }
         return new Promise((resolve) => {
             const config = { ...this.defaults, ...options };
 
@@ -192,11 +201,24 @@ export class SwalClone implements SwalInstance {
             container.appendChild(img);
         }
 
+        // Close button
+        if (config.showCloseButton) {
+            const closeButton = document.createElement('button');
+            closeButton.className = 'swal2-close';
+            closeButton.innerHTML = '×';
+            closeButton.setAttribute('aria-label', 'Close');
+            container.appendChild(closeButton);
+        }
+
         // Title
-        if (config.title) {
+        if (config.title || config.titleText) {
             const titleEl = document.createElement('h2');
             titleEl.className = 'swal-title';
-            titleEl.textContent = config.title;
+            if (config.title) {
+                titleEl.innerHTML = config.title;
+            } else if (config.titleText) {
+                titleEl.textContent = config.titleText;
+            }
             container.appendChild(titleEl);
         }
 
@@ -332,6 +354,9 @@ export class SwalClone implements SwalInstance {
         if (config.showConfirmButton) {
             const confirmBtn = document.createElement('button');
             confirmBtn.className = 'swal-button confirm';
+            if (config.confirmButtonClass) {
+                confirmBtn.classList.add(...config.confirmButtonClass.split(' '));
+            }
             confirmBtn.textContent = config.confirmButtonText || 'OK';
             confirmBtn.style.backgroundColor = config.confirmButtonColor || '#007bff';
             if (config.confirmButtonAriaLabel) {
@@ -354,6 +379,9 @@ export class SwalClone implements SwalInstance {
         if (config.showCancelButton) {
             const cancelBtn = document.createElement('button');
             cancelBtn.className = 'swal-button cancel';
+            if (config.cancelButtonClass) {
+                cancelBtn.classList.add(...config.cancelButtonClass.split(' '));
+            }
             cancelBtn.textContent = config.cancelButtonText || 'Cancel';
             cancelBtn.style.backgroundColor = config.cancelButtonColor || '#6c757d';
             if (config.cancelButtonAriaLabel) {
@@ -654,4 +682,45 @@ export class SwalClone implements SwalInstance {
     isVisible() {
         return this.currentDialog !== null;
     }
+
+    getContent(): HTMLElement | null {
+        return this.currentDialog?.querySelector('.swal-content') as HTMLElement || null;
+    }
+
+    disableConfirmButton(): void {
+        const button = this.getConfirmButton();
+        if (button) button.disabled = true;
+    }
+
+    enableConfirmButton(): void {
+        const button = this.getConfirmButton();
+        if (button) button.disabled = false;
+    }
+
+    isValidParameter(param: string): boolean {
+        return param in this.defaults;
+    }
 }
+
+// Make Swal available globally
+declare global {
+    interface Window {
+        Swal: SwalClone;
+        swal: SwalClone;
+    }
+}
+
+// Create and export the main instance
+const Swal = new SwalClone();
+
+// Make Swal available globally
+if (typeof window !== 'undefined') {
+    (window as any).Swal = Swal;
+    (window as any).swal = Swal;
+}
+
+// Export types
+export * from './types';
+
+// Export the instance
+export { Swal };

@@ -2,17 +2,24 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 
 export default defineConfig({
+  server: {
+    port: 5173
+  },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'FormBirdAlert',
-      formats: ['es', 'umd'],
-      fileName: (format) => `index.${format}.js`
+      entry: resolve(__dirname, 'src/swal.ts'),
+      name: 'Swal',
+      fileName: (format) => `swal.${format}.js`,
+      formats: ['umd']
     },
     rollupOptions: {
-      external: [],
       output: {
-        globals: {}
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'style.css') return 'swal.css';
+          return assetInfo.name;
+        },
+        globals: {},
+        name: 'Swal'
       }
     }
   },

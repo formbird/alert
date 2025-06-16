@@ -82,6 +82,11 @@ export interface SwalOptions {
   preConfirm?: (inputValue: any) => Promise<any> | any;
   preDeny?: () => Promise<any> | any;
   target?: HTMLElement;
+  confirmButtonClass?: string;
+  cancelButtonClass?: string;
+  showCloseButton?: boolean;
+  titleText?: string;
+  animation?: boolean;
 }
 
 export interface SwalResult {
@@ -115,4 +120,9 @@ export interface SwalInstance {
   resetValidationMessage(): void;
   disableInput(): void;
   enableInput(): void;
+  getContent(): HTMLElement | null;
+  disableConfirmButton(): void;
+  enableConfirmButton(): void;
+  isValidParameter(param: string): boolean;
+  version: string;
 }

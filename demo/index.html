@@ -3,61 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@formbird/alert Demo</title>
+    <title>SweetAlert2 Demo</title>
+    <link rel="stylesheet" href="../dist/swal.css">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background: #f5f5f5;
+            background: #f0f2f5;
         }
-
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
         h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        h2 {
-            color: #555;
+            color: #1a73e8;
             margin-bottom: 20px;
         }
-
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
         button {
-            background: #007bff;
-            color: white;
-            border: none;
             padding: 10px 20px;
-            margin: 5px;
-            border-radius: 5px;
+            border: none;
+            border-radius: 4px;
+            background: #1a73e8;
+            color: white;
             cursor: pointer;
             font-size: 14px;
             transition: background 0.2s;
         }
-
         button:hover {
-            background: #0056b3;
+            background: #1557b0;
         }
-
-        .my-swal {
-            border: 3px solid #3085d6;
+        .code-block {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+            overflow-x: auto;
         }
     </style>
 </head>
 <body>
-    <h1>@formbird/alert Demo</h1>
-    <div style="padding: 20px; max-width: 800px;">
-        <h2>Test the Library</h2>
-        <button onclick="testBasic()">Basic Alert</button>
-        <button onclick="testSuccess()">Success Alert</button>
-        <button onclick="testError()">Error Alert</button>
-        <button onclick="testConfirm()">Confirm Dialog</button>
-        <button onclick="testInput()">Input Dialog</button>
-        <button onclick="testToast()">Toast Notification</button>
-        <button onclick="testTimer()">Auto-close Timer</button>
-        <button onclick="testCustom()">Custom Styling</button>
+    <div class="container">
+        <h1>SweetAlert2 Demo</h1>
+        
+        <div class="button-group">
+            <button onclick="showBasicAlert()">Basic Alert</button>
+            <button onclick="showSuccessAlert()">Success Alert</button>
+            <button onclick="showErrorAlert()">Error Alert</button>
+            <button onclick="showWarningAlert()">Warning Alert</button>
+            <button onclick="showInfoAlert()">Info Alert</button>
+            <button onclick="showConfirmDialog()">Confirm Dialog</button>
+            <button onclick="showInputDialog()">Input Dialog</button>
+            <button onclick="showCustomHtml()">Custom HTML</button>
+        </div>
+
+        <div class="code-block">
+            <pre>
+// Basic Alert
+Swal.fire('Hello world!')
+
+// Success Alert
+Swal.fire({
+  title: 'Success!',
+  text: 'Operation completed successfully',
+  icon: 'success'
+})
+
+// Error Alert
+Swal.fire({
+  title: 'Error!',
+  text: 'Something went wrong',
+  icon: 'error'
+})
+
+// Warning Alert
+Swal.fire({
+  title: 'Warning!',
+  text: 'Please be careful',
+  icon: 'warning'
+})
+
+// Info Alert
+Swal.fire({
+  title: 'Info',
+  text: 'Here is some information',
+  icon: 'info'
+})
+
+// Confirm Dialog
+Swal.fire({
+  title: 'Are you sure?',
+  text: 'This action cannot be undone',
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Yes, delete it!',
+  cancelButtonText: 'No, cancel!'
+})
+
+// Input Dialog
+Swal.fire({
+  title: 'Enter your name',
+  input: 'text',
+  inputPlaceholder: 'Type your name here'
+})
+
+// Custom HTML
+Swal.fire({
+  title: 'Custom HTML',
+  html: '&lt;strong&gt;Hello&lt;/strong&gt;, &lt;em&gt;world!&lt;/em&gt;'
+})</pre>
+        </div>
     </div>
-    <script type="module" src="./main.ts"></script>
+
+    <script src="../dist/swal.umd.js"></script>
+    <script>
+        function showBasicAlert() {
+            Swal.fire('Hello world!')
+        }
+
+        function showSuccessAlert() {
+            Swal.fire({
+                title: 'Success!',
+                text: 'Operation completed successfully',
+                icon: 'success'
+            })
+        }
+
+        function showErrorAlert() {
+            Swal({
+                title: 'Error!',
+                text: 'Something went wrong',
+                icon: 'error'
+            })
+        }
+
+        function showWarningAlert() {
+            Swal({
+                title: 'Warning!',
+                text: 'Please be careful',
+                icon: 'warning'
+            })
+        }
+
+        function showInfoAlert() {
+            Swal({
+                title: 'Info',
+                text: 'Here is some information',
+                icon: 'info'
+            })
+        }
+
+        function showConfirmDialog() {
+            Swal({
+                title: 'Are you sure?',
+                text: 'This action cannot be undone',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!'
+            })
+        }
+
+        function showInputDialog() {
+            Swal({
+                title: 'Enter your name',
+                input: 'text',
+                inputPlaceholder: 'Type your name here'
+            })
+        }
+
+        function showCustomHtml() {
+            Swal({
+                title: 'Custom HTML',
+                html: '<strong>Hello</strong>, <em>world!</em>'
+            })
+        }
+    </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-import Swal from '../src/index';
+import Swal from '../src/swal';
 
 declare global {
     interface Window {
