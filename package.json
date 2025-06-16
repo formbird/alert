@@ -1,7 +1,7 @@
 {
   "name": "@formbird/alert",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "description": "A lightweight SweetAlert2 clone using native HTML dialog",
   "main": "dist/swal.umd.js",
