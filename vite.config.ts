@@ -6,6 +6,7 @@ export default defineConfig({
     port: 5173
   },
   build: {
+    outDir: 'dist',
     lib: {
       entry: resolve(__dirname, 'src/swal.ts'),
       name: 'Swal',
@@ -22,6 +23,5 @@ export default defineConfig({
         name: 'Swal'
       }
     }
-  },
-  root: 'demo'
+  }
 })
