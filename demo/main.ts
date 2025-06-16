@@ -1,5 +1,18 @@
 import Swal from '../src/index';
 
+declare global {
+    interface Window {
+        testBasic: () => void;
+        testSuccess: () => void;
+        testError: () => void;
+        testConfirm: () => void;
+        testInput: () => void;
+        testToast: () => void;
+        testTimer: () => void;
+        testCustom: () => void;
+    }
+}
+
 function testBasic() {
     Swal.fire({
         title: 'Hello World!',
@@ -135,3 +148,13 @@ function testCustom() {
         }
     });
 }
+
+// Expose functions to window object
+window.testBasic = testBasic;
+window.testSuccess = testSuccess;
+window.testError = testError;
+window.testConfirm = testConfirm;
+window.testInput = testInput;
+window.testToast = testToast;
+window.testTimer = testTimer;
+window.testCustom = testCustom;
