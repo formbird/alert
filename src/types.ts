@@ -89,6 +89,7 @@ export interface SwalOptions {
   animation?: boolean;
 }
 
+// Define the result type
 export interface SwalResult {
   isConfirmed: boolean;
   isDenied: boolean;
@@ -96,8 +97,9 @@ export interface SwalResult {
   value?: any;
 }
 
-export interface SwalInstance {
-  fire(options?: SwalOptions): Promise<SwalResult>;
+// Define the methods that will be available on the Swal object
+export interface SwalMethods {
+  fire(options?: SwalOptions | string): Promise<SwalResult>;
   close(): void;
   getTitle(): HTMLElement | null;
   getText(): HTMLElement | null;
@@ -125,4 +127,15 @@ export interface SwalInstance {
   enableConfirmButton(): void;
   isValidParameter(param: string): boolean;
   version: string;
+}
+
+// Define the callable interface that extends SwalMethods
+export interface SwalInstance extends SwalMethods {
+  (options?: SwalOptions | string): Promise<SwalResult>;
+  fire(options?: SwalOptions | string): Promise<SwalResult>;
+  version: string;
+}
+
+export interface CallableSwalInstance extends SwalInstance {
+    (options?: SwalOptions | string): Promise<SwalResult>;
 }

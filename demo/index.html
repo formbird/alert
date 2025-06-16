@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SweetAlert2 Demo</title>
+    <title>Formbird Alert Demo</title>
     <link rel="stylesheet" href="../dist/swal.css">
     <style>
         body {
@@ -55,7 +55,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SweetAlert2 Demo</h1>
+        <h1>Formbird Alert Demo</h1>
         
         <div class="button-group">
             <button onclick="showBasicAlert()">Basic Alert</button>
@@ -141,7 +141,7 @@ Swal.fire({
         }
 
         function showErrorAlert() {
-            Swal({
+            Swal.fire({
                 title: 'Error!',
                 text: 'Something went wrong',
                 icon: 'error'
@@ -149,7 +149,7 @@ Swal.fire({
         }
 
         function showWarningAlert() {
-            Swal({
+            Swal.fire({
                 title: 'Warning!',
                 text: 'Please be careful',
                 icon: 'warning'
@@ -157,7 +157,7 @@ Swal.fire({
         }
 
         function showInfoAlert() {
-            Swal({
+            Swal.fire({
                 title: 'Info',
                 text: 'Here is some information',
                 icon: 'info'
@@ -165,7 +165,7 @@ Swal.fire({
         }
 
         function showConfirmDialog() {
-            Swal({
+            Swal.fire({
                 title: 'Are you sure?',
                 text: 'This action cannot be undone',
                 icon: 'warning',
@@ -176,7 +176,7 @@ Swal.fire({
         }
 
         function showInputDialog() {
-            Swal({
+            Swal.fire({
                 title: 'Enter your name',
                 input: 'text',
                 inputPlaceholder: 'Type your name here'
@@ -184,7 +184,7 @@ Swal.fire({
         }
 
         function showCustomHtml() {
-            Swal({
+            Swal.fire({
                 title: 'Custom HTML',
                 html: '<strong>Hello</strong>, <em>world!</em>'
             })

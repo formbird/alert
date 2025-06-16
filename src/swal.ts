@@ -1,6 +1,7 @@
-import { SwalOptions, SwalResult, SwalInstance } from './types';
+import './styles.css';
+import { SwalOptions, SwalResult, SwalMethods, SwalInstance } from './types';
 
-export class SwalClone implements SwalInstance {
+class SwalClone implements SwalMethods {
     private currentDialog: HTMLDialogElement | null = null;
     private currentTimer: ReturnType<typeof setTimeout> | null = null;
     public version = '1.0.0';
@@ -14,7 +15,7 @@ export class SwalClone implements SwalInstance {
         iconHtml: undefined,
         footer: '',
         backdrop: true,
-        width: '300px',
+        width: '32em',
         padding: undefined,
         color: undefined,
         background: undefined,
@@ -53,8 +54,12 @@ export class SwalClone implements SwalInstance {
         inputValidator: undefined,
         validationMessage: undefined,
         toast: false,
-        showClass: { popup: 'swal-show' },
-        hideClass: { popup: 'swal-hide' },
+        showClass: {
+            popup: 'swal-show'
+        },
+        hideClass: {
+            popup: 'swal-hide'
+        },
         timer: undefined,
         timerProgressBar: false,
         allowOutsideClick: true,
@@ -64,27 +69,13 @@ export class SwalClone implements SwalInstance {
         keydownListenerCapture: false,
         heightAuto: true,
         scrollbarPadding: true,
-        willOpen: undefined,
-        didOpen: undefined,
-        willClose: undefined,
-        didClose: undefined,
-        didDestroy: undefined,
-        preConfirm: undefined,
-        preDeny: undefined,
-        target: document.body,
-        confirmButtonClass: undefined,
-        cancelButtonClass: undefined,
-        showCloseButton: false,
-        titleText: undefined,
-        animation: true
     };
 
-    fire(options: SwalOptions | string = {}): Promise<SwalResult> {
-        if (typeof options === 'string') {
-            options = { title: options };
-        }
+    fire(options?: SwalOptions | string): Promise<SwalResult> {
         return new Promise((resolve) => {
-            const config = { ...this.defaults, ...options };
+            const config = typeof options === 'string'
+                ? { ...this.defaults, text: options }
+                : { ...this.defaults, ...options };
 
             // Close existing dialog
             this.close();
@@ -526,21 +517,24 @@ export class SwalClone implements SwalInstance {
     }
 
     showLoading(): void {
+        this.disableButtons();
         const confirmButton = this.getConfirmButton();
         if (confirmButton) {
-            confirmButton.innerHTML = '<div class="swal-loading"></div>';
+            const loader = document.createElement('div');
+            loader.className = 'swal-loading';
+            confirmButton.appendChild(loader);
             confirmButton.disabled = true;
         }
-        this.disableButtons();
     }
 
     hideLoading(): void {
+        this.enableButtons();
         const confirmButton = this.getConfirmButton();
         if (confirmButton) {
-            confirmButton.innerHTML = this.defaults.confirmButtonText || 'OK';
+            const loader = confirmButton.querySelector('.swal-loading');
+            loader?.remove();
             confirmButton.disabled = false;
         }
-        this.enableButtons();
     }
 
     startTimer(duration: number, showProgressBar: boolean, dialog: HTMLDialogElement, resolve: (value: SwalResult) => void): void {
@@ -592,23 +586,21 @@ export class SwalClone implements SwalInstance {
     }
 
     enableButtons(): void {
-        const buttons = this.currentDialog?.querySelectorAll('.swal-button') as NodeListOf<HTMLButtonElement>;
-        buttons?.forEach(btn => btn.disabled = false);
+        const buttons = this.currentDialog?.querySelectorAll('.swal-button');
+        buttons?.forEach(btn => (btn as HTMLButtonElement).disabled = false);
     }
 
     disableButtons(): void {
-        const buttons = this.currentDialog?.querySelectorAll('.swal-button') as NodeListOf<HTMLButtonElement>;
-        buttons?.forEach(btn => btn.disabled = true);
+        const buttons = this.currentDialog?.querySelectorAll('.swal-button');
+        buttons?.forEach(btn => (btn as HTMLButtonElement).disabled = true);
     }
 
     clickConfirm(): void {
-        const button = this.getConfirmButton();
-        button?.click();
+        this.getConfirmButton()?.click();
     }
 
     clickCancel(): void {
-        const button = this.getCancelButton();
-        button?.click();
+        this.getCancelButton()?.click();
     }
 
     close(): void {
@@ -617,28 +609,13 @@ export class SwalClone implements SwalInstance {
                 clearTimeout(this.currentTimer);
                 this.currentTimer = null;
             }
-
-            // Handle keyboard events cleanup
-            if ((this.currentDialog as any)._keyHandler) {
-                document.removeEventListener('keydown', (this.currentDialog as any)._keyHandler);
-                delete (this.currentDialog as any)._keyHandler;
+            if ('open' in this.currentDialog) {
+                this.currentDialog.close();
             }
-
-            this.currentDialog.classList.add(this.defaults.hideClass?.popup || 'swal-hide');
-            
-            setTimeout(() => {
-                if (this.currentDialog) {
-                    if (this.currentDialog.open) {
-                        this.currentDialog.close();
-                    }
-                    this.currentDialog.remove();
-                    this.currentDialog = null;
-                }
-            }, 100);
+            this.currentDialog = null;
         }
     }
 
-    // Get methods that return specific HTML elements
     getTitle(): HTMLElement | null {
         return this.currentDialog?.querySelector('.swal-title') as HTMLElement || null;
     }
@@ -679,12 +656,12 @@ export class SwalClone implements SwalInstance {
         return this.currentDialog?.querySelector('.swal-input') as HTMLElement || null;
     }
 
-    isVisible() {
-        return this.currentDialog !== null;
-    }
-
     getContent(): HTMLElement | null {
         return this.currentDialog?.querySelector('.swal-content') as HTMLElement || null;
+    }
+
+    isVisible(): boolean {
+        return this.currentDialog?.open || false;
     }
 
     disableConfirmButton(): void {
@@ -698,29 +675,63 @@ export class SwalClone implements SwalInstance {
     }
 
     isValidParameter(param: string): boolean {
-        return param in this.defaults;
+        const validParams = new Set([
+            'title', 'text', 'html', 'icon', 'iconColor', 'iconHtml', 'footer', 'backdrop',
+            'width', 'padding', 'color', 'background', 'position', 'grow', 'customClass',
+            'imageUrl', 'imageWidth', 'imageHeight', 'imageAlt', 'showConfirmButton',
+            'showDenyButton', 'showCancelButton', 'confirmButtonText', 'denyButtonText',
+            'cancelButtonText', 'confirmButtonColor', 'denyButtonColor', 'cancelButtonColor',
+            'confirmButtonAriaLabel', 'denyButtonAriaLabel', 'cancelButtonAriaLabel',
+            'buttonsStyling', 'reverseButtons', 'focusConfirm', 'focusDeny', 'focusCancel',
+            'returnFocus', 'input', 'inputPlaceholder', 'inputLabel', 'inputValue',
+            'inputOptions', 'inputAutoTrim', 'inputAttributes', 'inputValidator',
+            'validationMessage', 'toast', 'showClass', 'hideClass', 'timer',
+            'timerProgressBar', 'allowOutsideClick', 'allowEscapeKey', 'allowEnterKey',
+            'stopKeydownPropagation', 'keydownListenerCapture', 'heightAuto',
+            'scrollbarPadding', 'willOpen', 'didOpen', 'willClose', 'didClose',
+            'didDestroy', 'preConfirm', 'preDeny', 'target', 'confirmButtonClass',
+            'cancelButtonClass', 'showCloseButton', 'titleText', 'animation'
+        ]);
+        return validParams.has(param);
     }
 }
 
-// Make Swal available globally
-declare global {
-    interface Window {
-        Swal: SwalClone;
-        swal: SwalClone;
-    }
+function createSwalInstance(): SwalInstance {
+    const instance = new SwalClone();
+    
+    // Create the callable instance
+    const callable = function(options?: SwalOptions | string) {
+        return instance.fire(options);
+    } as SwalInstance;
+
+    // Copy methods from instance to callable
+    Object.getOwnPropertyNames(Object.getPrototypeOf(instance))
+        .filter(name => name !== 'constructor')
+        .forEach(name => {
+            const descriptor = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(instance), name);
+            if (descriptor) {
+                Object.defineProperty(callable, name, {
+                    ...descriptor,
+                    value: descriptor.value?.bind(instance)
+                });
+            }
+        });
+
+    // Add version property
+    Object.defineProperty(callable, 'version', {
+        get: () => instance.version
+    });
+
+    return callable;
 }
 
-// Create and export the main instance
-const Swal = new SwalClone();
+// Create and export the default instance
+const Swal = createSwalInstance();
 
-// Make Swal available globally
+// Make it global
 if (typeof window !== 'undefined') {
     (window as any).Swal = Swal;
-    (window as any).swal = Swal;
+    (window as any).swal = Swal; // For compatibility
 }
 
-// Export types
-export * from './types';
-
-// Export the instance
-export { Swal };
+export default Swal;
