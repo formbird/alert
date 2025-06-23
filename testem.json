@@ -1,16 +1,27 @@
 {
     "framework": "qunit",
+    "test_page": "qunit/index.html",
     "src_files": [
-      "https://code.jquery.com/jquery-3.1.1.min.js",
-      "qunit/tests.js",
-      "dist/index.js",
-        "dist/swal.js"
+      "dist/swal.umd.js",
+      "dist/swal.css",
+      "qunit/tests.js"
     ],
-    "css_files": [
-      "src/styles.css"
+    "serve_files": [
+      "dist/swal.umd.js",
+      "dist/swal.css",
+      "qunit/tests.js"
     ],
     "launch_in_ci": [
-      "Chrome",
-      "Firefox"
-    ]
+      "Chrome"
+    ],
+    "browser_args": {
+      "Chrome": [
+        "--headless",
+        "--disable-gpu",
+        "--no-sandbox"
+      ]
+    },
+    "routes": {
+      "/testem.js": "node_modules/testem/public/testem.js"
+    }
 }

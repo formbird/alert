@@ -82,19 +82,23 @@ class SwalClone implements SwalMethods {
 
             // Create dialog element
             const dialog = document.createElement('dialog') as HTMLDialogElement;
-            dialog.className = 'swal-dialog';
+            dialog.className = 'swal2-modal';
 
             // Apply custom positioning
             if (config.position !== 'center') {
-                dialog.classList.add(`swal-position-${config.position}`);
+                dialog.classList.add(`swal2-position-${config.position}`);
             }
 
             // Create container
             const container = document.createElement('div');
-            container.className = 'swal-container';
+            container.className = 'swal2-container';
 
             // Apply custom styling
-            if (config.width) container.style.width = typeof config.width === 'number' ? config.width + 'px' : config.width;
+            if (config.width) {
+                const width = typeof config.width === 'number' ? `${config.width}px` : config.width;
+                dialog.style.width = width;
+                container.style.width = width;
+            }
             if (config.padding) container.style.padding = config.padding;
             if (config.color) container.style.color = config.color;
             if (config.background) container.style.background = config.background;
@@ -159,7 +163,7 @@ class SwalClone implements SwalMethods {
         // Icon
         if (config.icon) {
             const iconEl = document.createElement('div');
-            iconEl.className = `swal-icon ${config.icon}`;
+            iconEl.className = `swal2-icon swal2-${config.icon}`;
 
             if (config.iconHtml) {
                 iconEl.innerHTML = config.iconHtml;
@@ -185,7 +189,7 @@ class SwalClone implements SwalMethods {
         if (config.imageUrl) {
             const img = document.createElement('img');
             img.src = config.imageUrl;
-            img.className = 'swal-image';
+            img.className = 'swal2-image';
             img.alt = config.imageAlt || '';
             if (config.imageWidth) img.style.width = config.imageWidth + 'px';
             if (config.imageHeight) img.style.height = config.imageHeight + 'px';
@@ -204,7 +208,7 @@ class SwalClone implements SwalMethods {
         // Title
         if (config.title || config.titleText) {
             const titleEl = document.createElement('h2');
-            titleEl.className = 'swal-title';
+            titleEl.className = 'swal2-title';
             if (config.title) {
                 titleEl.innerHTML = config.title;
             } else if (config.titleText) {
@@ -215,13 +219,13 @@ class SwalClone implements SwalMethods {
 
         // Content
         const contentEl = document.createElement('div');
-        contentEl.className = 'swal-content';
+        contentEl.className = 'swal2-content';
 
         if (config.html) {
             contentEl.innerHTML = config.html;
         } else if (config.text) {
             const textEl = document.createElement('div');
-            textEl.className = 'swal-text';
+            textEl.className = 'swal2-text';
             textEl.textContent = config.text;
             contentEl.appendChild(textEl);
         }
@@ -233,7 +237,7 @@ class SwalClone implements SwalMethods {
 
             // Validation message
             const validationEl = document.createElement('div');
-            validationEl.className = 'swal-validation-message';
+            validationEl.className = 'swal2-validation-message';
             contentEl.appendChild(validationEl);
         }
 
@@ -245,7 +249,7 @@ class SwalClone implements SwalMethods {
         // Footer
         if (config.footer) {
             const footerEl = document.createElement('div');
-            footerEl.className = 'swal-footer';
+            footerEl.className = 'swal2-footer';
             footerEl.innerHTML = config.footer;
             container.appendChild(footerEl);
         }
@@ -253,9 +257,9 @@ class SwalClone implements SwalMethods {
         // Timer progress bar
         if (config.timerProgressBar) {
             const progressEl = document.createElement('div');
-            progressEl.className = 'swal-timer-progress-bar';
+            progressEl.className = 'swal2-timer-progress-bar';
             const progressInner = document.createElement('div');
-            progressInner.className = 'swal-timer-progress-bar-inner';
+            progressInner.className = 'swal2-timer-progress-bar-inner';
             progressEl.appendChild(progressInner);
             container.appendChild(progressEl);
         }
@@ -263,6 +267,8 @@ class SwalClone implements SwalMethods {
 
     private createInput(config: SwalOptions): HTMLElement {
         let inputEl: HTMLElement;
+        let checkbox: HTMLInputElement;
+        let range: HTMLInputElement;
 
         switch (config.input) {
             case 'text':
@@ -288,11 +294,12 @@ class SwalClone implements SwalMethods {
                 break;
             case 'radio':
                 inputEl = document.createElement('div');
+                inputEl.className = 'swal2-radio';
                 Object.entries(config.inputOptions || {}).forEach(([value, text]) => {
                     const label = document.createElement('label');
                     const radio = document.createElement('input');
                     radio.type = 'radio';
-                    radio.name = 'swal-radio';
+                    radio.name = 'swal2-radio';
                     radio.value = value;
                     label.appendChild(radio);
                     label.appendChild(document.createTextNode(text));
@@ -300,12 +307,18 @@ class SwalClone implements SwalMethods {
                 });
                 break;
             case 'checkbox':
-                inputEl = document.createElement('input');
-                (inputEl as HTMLInputElement).type = 'checkbox';
+                inputEl = document.createElement('div');
+                inputEl.className = 'swal2-checkbox';
+                checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                inputEl.appendChild(checkbox);
                 break;
             case 'range':
-                inputEl = document.createElement('input');
-                (inputEl as HTMLInputElement).type = 'range';
+                inputEl = document.createElement('div');
+                inputEl.className = 'swal2-range';
+                range = document.createElement('input');
+                range.type = 'range';
+                inputEl.appendChild(range);
                 break;
             case 'file':
                 inputEl = document.createElement('input');
@@ -316,7 +329,9 @@ class SwalClone implements SwalMethods {
                 (inputEl as HTMLInputElement).type = 'text';
         }
 
-        inputEl.className = 'swal-input';
+        if (!inputEl.className) {
+            inputEl.className = 'swal2-input';
+        }
         if (config.inputPlaceholder && 'placeholder' in inputEl) {
             (inputEl as HTMLInputElement).placeholder = config.inputPlaceholder;
         }
@@ -338,13 +353,13 @@ class SwalClone implements SwalMethods {
         }
 
         const actionsEl = document.createElement('div');
-        actionsEl.className = 'swal-actions';
+        actionsEl.className = 'swal2-buttonswrapper';
 
         const buttons: HTMLButtonElement[] = [];
 
         if (config.showConfirmButton) {
             const confirmBtn = document.createElement('button');
-            confirmBtn.className = 'swal-button confirm';
+            confirmBtn.className = 'swal2-confirm';
             if (config.confirmButtonClass) {
                 confirmBtn.classList.add(...config.confirmButtonClass.split(' '));
             }
@@ -358,7 +373,7 @@ class SwalClone implements SwalMethods {
 
         if (config.showDenyButton) {
             const denyBtn = document.createElement('button');
-            denyBtn.className = 'swal-button deny';
+            denyBtn.className = 'swal2-deny';
             denyBtn.textContent = config.denyButtonText || 'No';
             denyBtn.style.backgroundColor = config.denyButtonColor || '#dc3545';
             if (config.denyButtonAriaLabel) {
@@ -369,7 +384,7 @@ class SwalClone implements SwalMethods {
 
         if (config.showCancelButton) {
             const cancelBtn = document.createElement('button');
-            cancelBtn.className = 'swal-button cancel';
+            cancelBtn.className = 'swal2-cancel';
             if (config.cancelButtonClass) {
                 cancelBtn.classList.add(...config.cancelButtonClass.split(' '));
             }
@@ -390,10 +405,10 @@ class SwalClone implements SwalMethods {
     }
 
     private attachEventHandlers(dialog: HTMLDialogElement, config: SwalOptions, resolve: (value: SwalResult) => void): void {
-        const confirmBtn = dialog.querySelector('.swal-button.confirm') as HTMLButtonElement;
-        const denyBtn = dialog.querySelector('.swal-button.deny') as HTMLButtonElement;
-        const cancelBtn = dialog.querySelector('.swal-button.cancel') as HTMLButtonElement;
-        const input = dialog.querySelector('.swal-input') as HTMLInputElement;
+        const confirmBtn = dialog.querySelector('.swal2-confirm') as HTMLButtonElement;
+        const denyBtn = dialog.querySelector('.swal2-deny') as HTMLButtonElement;
+        const cancelBtn = dialog.querySelector('.swal2-cancel') as HTMLButtonElement;
+        const input = dialog.querySelector('.swal2-input') as HTMLInputElement;
 
         // Confirm button
         if (confirmBtn) {
@@ -539,7 +554,7 @@ class SwalClone implements SwalMethods {
 
     startTimer(duration: number, showProgressBar: boolean, dialog: HTMLDialogElement, resolve: (value: SwalResult) => void): void {
         if (showProgressBar) {
-            const progressBar = dialog.querySelector('.swal-timer-progress-bar-inner') as HTMLElement;
+            const progressBar = dialog.querySelector('.swal2-timer-progress-bar-inner') as HTMLElement;
             if (progressBar) {
                 progressBar.style.transition = `width ${duration}ms linear`;
                 progressBar.style.width = '0%';
@@ -561,7 +576,7 @@ class SwalClone implements SwalMethods {
     }
 
     showValidationMessage(message: string): void {
-        const validationEl = this.currentDialog?.querySelector('.swal-validation-message') as HTMLElement;
+        const validationEl = this.currentDialog?.querySelector('.swal2-validation-message') as HTMLElement;
         if (validationEl) {
             validationEl.textContent = message;
             validationEl.style.display = 'block';
@@ -569,7 +584,7 @@ class SwalClone implements SwalMethods {
     }
 
     resetValidationMessage(): void {
-        const validationEl = this.currentDialog?.querySelector('.swal-validation-message') as HTMLElement;
+        const validationEl = this.currentDialog?.querySelector('.swal2-validation-message') as HTMLElement;
         if (validationEl) {
             validationEl.style.display = 'none';
         }
@@ -617,47 +632,47 @@ class SwalClone implements SwalMethods {
     }
 
     getTitle(): HTMLElement | null {
-        return this.currentDialog?.querySelector('.swal-title') as HTMLElement || null;
+        return this.currentDialog?.querySelector('.swal2-title') as HTMLElement || null;
     }
 
     getText(): HTMLElement | null {
-        return this.currentDialog?.querySelector('.swal-text') as HTMLElement || null;
+        return this.currentDialog?.querySelector('.swal2-text') as HTMLElement || null;
     }
 
     getIcon(): HTMLElement | null {
-        return this.currentDialog?.querySelector('.swal-icon') as HTMLElement || null;
+        return this.currentDialog?.querySelector('.swal2-icon') as HTMLElement || null;
     }
 
     getImage(): HTMLElement | null {
-        return this.currentDialog?.querySelector('.swal-image') as HTMLElement || null;
+        return this.currentDialog?.querySelector('.swal2-image') as HTMLElement || null;
     }
 
     getActions(): HTMLElement | null {
-        return this.currentDialog?.querySelector('.swal-actions') as HTMLElement || null;
+        return this.currentDialog?.querySelector('.swal2-buttonswrapper') as HTMLElement || null;
     }
 
     getConfirmButton(): HTMLButtonElement | null {
-        return this.currentDialog?.querySelector('.swal-button.confirm') as HTMLButtonElement || null;
+        return this.currentDialog?.querySelector('.swal2-confirm') as HTMLButtonElement || null;
     }
 
     getDenyButton(): HTMLButtonElement | null {
-        return this.currentDialog?.querySelector('.swal-button.deny') as HTMLButtonElement || null;
+        return this.currentDialog?.querySelector('.swal2-deny') as HTMLButtonElement || null;
     }
 
     getCancelButton(): HTMLButtonElement | null {
-        return this.currentDialog?.querySelector('.swal-button.cancel') as HTMLButtonElement || null;
+        return this.currentDialog?.querySelector('.swal2-cancel') as HTMLButtonElement || null;
     }
 
     getFooter(): HTMLElement | null {
-        return this.currentDialog?.querySelector('.swal-footer') as HTMLElement || null;
+        return this.currentDialog?.querySelector('.swal2-footer') as HTMLElement || null;
     }
 
     getInput(): HTMLElement | null {
-        return this.currentDialog?.querySelector('.swal-input') as HTMLElement || null;
+        return this.currentDialog?.querySelector('.swal2-input') as HTMLElement || null;
     }
 
     getContent(): HTMLElement | null {
-        return this.currentDialog?.querySelector('.swal-content') as HTMLElement || null;
+        return this.currentDialog?.querySelector('.swal2-content') as HTMLElement || null;
     }
 
     isVisible(): boolean {

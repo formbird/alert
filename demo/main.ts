@@ -1,4 +1,4 @@
-import Swal from '../src/swal';
+import Swal from './dist/swal.umd';
 
 declare global {
     interface Window {

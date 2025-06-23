@@ -1,4 +1,4 @@
-.swal-dialog {
+.swal2-modal {
   border: none;
   border-radius: 10px;
   padding: 0;
@@ -6,13 +6,16 @@
   max-height: 90vh;
   background: transparent;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  width: 32em;
+  box-sizing: border-box;
 }
 
-.swal-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.4);
+.swal2-modal .swal2-container {
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
-.swal-container {
+.swal2-container {
   background: white;
   border-radius: 10px;
   padding: 20px;
@@ -20,9 +23,12 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   min-width: 300px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
-.swal-icon {
+.swal2-icon {
   width: 80px;
   height: 80px;
   margin: 0 auto 20px;
@@ -34,32 +40,32 @@
   font-weight: bold;
 }
 
-.swal-icon.success {
+.swal2-icon.swal2-success {
   background: #d4edda;
   color: #155724;
 }
 
-.swal-icon.error {
+.swal2-icon.swal2-error {
   background: #f8d7da;
   color: #721c24;
 }
 
-.swal-icon.warning {
+.swal2-icon.swal2-warning {
   background: #fff3cd;
   color: #856404;
 }
 
-.swal-icon.info {
+.swal2-icon.swal2-info {
   background: #d1ecf1;
   color: #0c5460;
 }
 
-.swal-icon.question {
+.swal2-icon.swal2-question {
   background: #e2e3e5;
   color: #383d41;
 }
 
-.swal-title {
+.swal2-title {
   font-size: 28px;
   font-weight: 600;
   margin: 0 0 15px;
@@ -67,21 +73,21 @@
   line-height: 1.2;
 }
 
-.swal-text {
+.swal2-content {
   font-size: 16px;
   color: #666;
   margin: 0 0 20px;
   line-height: 1.4;
 }
 
-.swal-image {
+.swal2-image {
   max-width: 200px;
   max-height: 200px;
   margin: 0 auto 20px;
   display: block;
 }
 
-.swal-input {
+.swal2-input {
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
@@ -91,27 +97,28 @@
   box-sizing: border-box;
 }
 
-.swal-input:focus {
+.swal2-input:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-.swal-validation-message {
+.swal2-validation-message {
   color: #dc3545;
   font-size: 14px;
   margin-top: 5px;
   display: none;
 }
 
-.swal-actions {
+.swal2-actions {
   display: flex;
   gap: 10px;
   justify-content: center;
   margin-top: 20px;
 }
 
-.swal-button {
+.swal2-confirm,
+.swal2-cancel {
   padding: 12px 24px;
   border: none;
   border-radius: 5px;
@@ -122,31 +129,28 @@
   min-width: 100px;
 }
 
-.swal-button:hover {
+.swal2-confirm:hover,
+.swal2-cancel:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.swal-button:active {
+.swal2-confirm:active,
+.swal2-cancel:active {
   transform: translateY(0);
 }
 
-.swal-button.confirm {
+.swal2-confirm {
   background: #007bff;
   color: white;
 }
 
-.swal-button.deny {
-  background: #dc3545;
-  color: white;
-}
-
-.swal-button.cancel {
+.swal2-cancel {
   background: #6c757d;
   color: white;
 }
 
-.swal-footer {
+.swal2-footer {
   margin-top: 20px;
   padding-top: 15px;
   border-top: 1px solid #eee;
@@ -154,7 +158,7 @@
   color: #666;
 }
 
-.swal-timer-progress-bar {
+.swal2-timer-progress-bar {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -165,19 +169,19 @@
   overflow: hidden;
 }
 
-.swal-timer-progress-bar-inner {
+.swal2-timer-progress-bar-inner {
   height: 100%;
   background: #007bff;
   width: 100%;
   transition: width linear;
 }
 
-.swal-loading .swal-button.confirm {
+.swal2-loading .swal2-confirm {
   position: relative;
   color: transparent;
 }
 
-.swal-loading .swal-button.confirm::after {
+.swal2-loading .swal2-confirm::after {
   content: "";
   position: absolute;
   width: 20px;
@@ -189,10 +193,10 @@
   border: 2px solid transparent;
   border-top: 2px solid #fff;
   border-radius: 50%;
-  animation: swal-spin 1s linear infinite;
+  animation: swal2-spin 1s linear infinite;
 }
 
-@keyframes swal-spin {
+@keyframes swal2-spin {
   0% {
     transform: rotate(0deg);
   }
@@ -201,7 +205,7 @@
   }
 }
 
-.swal-toast {
+.swal2-toast {
   position: fixed;
   top: 20px;
   right: 20px;
@@ -210,7 +214,7 @@
   max-width: 400px;
 }
 
-.swal-toast .swal-container {
+.swal2-toast .swal2-container {
   padding: 15px;
   text-align: left;
   display: flex;
@@ -218,49 +222,49 @@
   gap: 15px;
 }
 
-.swal-toast .swal-icon {
+.swal2-toast .swal2-icon {
   width: 40px;
   height: 40px;
   font-size: 20px;
   margin: 0;
 }
 
-.swal-toast .swal-content {
+.swal2-toast .swal2-content {
   flex: 1;
 }
 
-.swal-toast .swal-title {
+.swal2-toast .swal2-title {
   font-size: 16px;
   margin: 0 0 5px;
 }
 
-.swal-toast .swal-text {
+.swal2-toast .swal2-text {
   font-size: 14px;
   margin: 0;
 }
 
 /* Position classes */
-.swal-position-top {
+.swal2-position-top {
   top: 50px;
 }
-.swal-position-bottom {
+.swal2-position-bottom {
   bottom: 50px;
 }
-.swal-position-center {
+.swal2-position-center {
   top: 50%;
   transform: translateY(-50%);
 }
 
 /* Animation classes */
-.swal-show {
-  animation: swal-show 0.3s ease-out;
+.swal2-show {
+  animation: swal2-show 0.3s ease-out;
 }
 
-.swal-hide {
-  animation: swal-hide 0.2s ease-in;
+.swal2-hide {
+  animation: swal2-hide 0.2s ease-in;
 }
 
-@keyframes swal-show {
+@keyframes swal2-show {
   from {
     opacity: 0;
     transform: scale(0.8);
@@ -271,7 +275,7 @@
   }
 }
 
-@keyframes swal-hide {
+@keyframes swal2-hide {
   from {
     opacity: 1;
     transform: scale(1);
@@ -280,4 +284,79 @@
     opacity: 0;
     transform: scale(0.8);
   }
+}
+
+/* Additional classes needed for tests */
+.swal2-buttonswrapper {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.swal2-buttonswrapper.swal2-loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.swal2-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
+}
+
+.swal2-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.swal2-radio label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.swal2-radio input[type="radio"] {
+  margin: 0;
+}
+
+.swal2-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+.swal2-checkbox input[type="checkbox"] {
+  margin: 0;
+}
+
+.swal2-range {
+  width: 100%;
+  margin: 15px 0;
+}
+
+.swal2-range input[type="range"] {
+  width: 100%;
+}
+
+.swal2-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  margin: 15px 0;
+  box-sizing: border-box;
 }
